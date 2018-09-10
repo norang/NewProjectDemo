@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<html>
+<head>
+
+<title>Registration Title</title>
+<div th:replace="fragments/header :: header-css"/>
+
+</head>
+<body>
+
+<div class="container">
+
+    <form th:action="@{/registration}" method="POST" th:object="${userForm}" class="form-signin">
+        <h2 class="form-signin-heading">Create your account</h2>
+        
+
+        <input type="text" th:field="*{username}" class="form-control input-lg"
+                           placeholder="UserName" required autofocus />
+        <span class="text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+        
+        <input type="password" th:field="*{password}" class="form-control input-lg"
+                           placeholder="Password" />
+        <span class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        
+        <input type="password" th:field="*{passwordConfirm}" class="form-control input-lg"
+                           placeholder="Confirm your password" />
+        <span class="text-danger" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}"></span>
+        
+        <br/>
+        
+        <select class="form-control" th:field="*{title}" required>
+        	<option value="" selected>select your beverage</option>
+       		<option th:each="role:${roleList}" th:value="${role.id}" th:text="${role.name}"/>
+        </select>
+        
+        <span class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
+     
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button>
+    </form>
+
+</div>
+<!-- /container -->
+
+</body>
+</html>

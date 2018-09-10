@@ -14,11 +14,10 @@
 
 <div class="container">
 
-    <div class="row" style="margin-top:20px">
-        <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+    <div class="row" style="margin-top:80px">
         <form th:action="@{/login}" method="post" class="form-signin">
         	<fieldset>
-                <h2 class="form-heading">Log in</h2>
+                <h2 class="form-heading"><center><span th:text="#{Login}"></span></center></h2>
 				
 				<div th:if="${error}">
                     <div class="alert alert-danger" th:text="${error}" />
@@ -41,23 +40,25 @@
                 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 				</div>
 				
-		        <div class="row">
-                    <div class="col-xs-6 col-sm-6 col-md-6">
-                        <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign In"/>
+		        <div class="form-group">
+                    
+                        <button type="submit" class="btn btn-lg btn-primary btn-block" >Sign in</button>
                     </div>
-                    <div class="col-xs-6 col-sm-6 col-md-6">
+                    
                     </div>
                 </div>
               
             
                 <div>
-                	<p class="text-left"><a th:href="@{/registration}">Create an account</a></p>
+                	<p class="text-left"><a th:href="@{/registration}"><center>Create an account</center></a></p>
 		        </div>
 		        
 		          
 			</fieldset>
 	    </form>
-</div></div></div></div>
+</div>
+</div>
+</div>
 <!-- /.container -->
 
 <div th:replace="fragments/footer :: footer"/>

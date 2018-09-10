@@ -33,7 +33,7 @@
         <br/>
         
         <select class="form-control" th:field="*{title}" required>
-        	<option value="" selected>select your beverage</option>
+        	<option value="" selected>Select your title</option>
        		<option th:each="role:${roleList}" th:value="${role.id}" th:text="${role.name}"/>
         </select>
         

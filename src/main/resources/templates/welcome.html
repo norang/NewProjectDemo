@@ -17,12 +17,13 @@
 
 <div class="container">
 	<div class="starter-template">
-		<br />
-		<h1 >Spring Boot Web Thymeleaf Example</h1>
+		
+		<div class="container">
+		<h1 class="form-heading"  style="margin-bottom: 50px;">Project Demo</h1>
 		<h2>
-			<span th:text="'Hello '"></span><span sec:authentication="name"></span>
+			<span th:text="#{welcome} + ' '"></span><span sec:authentication="name"></span>
 		</h2>
-		<br />
+		</div>
 	</div>
 
 

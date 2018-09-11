@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -37,7 +39,7 @@ public class UserController extends AbstractController{
     @Autowired
     MessageSource messageSource;
 
-//    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     
     
     

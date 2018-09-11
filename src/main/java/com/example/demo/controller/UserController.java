@@ -96,10 +96,10 @@ public class UserController extends AbstractController{
 //        return new ModelAndView("welcome");
 //    }
     
-    @PreAuthorize("hasRole('ROLE_CON')")
+ //   @PreAuthorize("hasRole('ROLE_CON')")
     @RequestMapping(value = {"/", "/welcome**"}, method = RequestMethod.GET)
     public String welcome(Model model) {
-//    	Integer.parseInt("abc");
+    	model.addAttribute("userList", userService.findAll());
         return "welcome";
     }
     

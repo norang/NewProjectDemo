@@ -29,9 +29,7 @@
         <input type="password" th:field="*{passwordConfirm}" class="form-control input-lg"
                            placeholder="Confirm your password" />
         <span class="text-danger" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}"></span>
-        
-        <br/>
-        
+
         <select class="form-control" th:field="*{title}" required>
         	<option value="" selected>Select your title</option>
        		<option th:each="role:${roleList}" th:value="${role.id}" th:text="${role.name}"/>

@@ -19,10 +19,38 @@
 	<div class="starter-template">
 		
 		<div class="container">
-		<h1 class="form-heading"  style="margin-bottom: 50px;">Project Demo</h1>
+		<h1 class="form-heading"  style="margin-top: 30px; margin-bottom:30px;">Project Demo</h1>
+		<!-- 
 		<h2>
 			<span th:text="#{welcome} + ' '"></span><span sec:authentication="name"></span>
 		</h2>
+		 -->
+		 
+		<div th:if="${not #lists.isEmpty(userList)}">
+		    <h2>User List</h2>
+		    <table class="table table-striped">
+		        <tr>
+		            <th>Username</th>
+		            <th>Password</th>
+		            <th>Role</th>
+		        </tr>
+		        <tr th:each="user : ${userList}">
+		            <td th:text="${user.username}"></td>
+		            <td th:text="${user.password}"></td>
+		             <td>
+			             <div th:each="role : ${user.roles}">
+			             	<p th:text="${role.name}"></p>
+			             </div>
+		             </td> 
+		        </tr>
+		        
+		    </table>
+		</div> 
+				 
+		 
+		 
+		 
+		 
 		</div>
 	</div>
 

@@ -1,6 +1,5 @@
 package com.example.demo.exception;
 
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -26,14 +25,14 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	@ExceptionHandler(NumberFormatException.class)
 	  public final ModelAndView handleNumberFormatException(Model model, Exception ex, WebRequest request) {
 			model.addAttribute("message", ex.getClass());
-		    return new ModelAndView("error-500");
+		    return new ModelAndView("/error/error-500");
   }
   
   
-  @ExceptionHandler(AccessDeniedException.class)
-  public final ModelAndView handleAccessDeniedException(Exception ex, WebRequest request) {
-	    return new ModelAndView("error-401");
-	  }
+//  @ExceptionHandler(AccessDeniedException.class)
+//  public final ModelAndView handleAccessDeniedException(Exception ex, WebRequest request) {
+//	    return new ModelAndView("error-401");
+//	  }
 
 //  @ExceptionHandler(NumberFormatException.class)
 //  public final ResponseEntity<ErrorDetails> handleNumberFormatException(NumberFormatException ex, WebRequest request) {

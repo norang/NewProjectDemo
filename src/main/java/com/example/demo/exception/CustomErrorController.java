@@ -3,6 +3,8 @@ package com.example.demo.exception;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class CustomErrorController implements ErrorController  {
  
+	
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request) {
     	Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
@@ -22,11 +25,13 @@ public class CustomErrorController implements ErrorController  {
                 return "/error/error-404";
             }
 
-            else if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
-                return "error-500";
-            }
         }
         return "error";
+    }
+    
+    @RequestMapping("/access-denied")
+    public String handle403Error(HttpServletRequest request) {
+    	return "/error/access-denied";
     }
  
     @Override

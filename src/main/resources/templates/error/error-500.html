@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="BIG5">
-<title>Error 404 Title</title>
+<title>Error 500 Title</title>
 
 <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
               href="../../css/bootstrap.min.css" />
@@ -13,7 +13,10 @@
 </head>
 <body>
 <div class="container">
-	<a th:href="@{/}"><img class="mx-auto d-block" src="/image/error_404.jpg"  alt="error 404"></a>
+	<a th:href="@{/}"><img class="mx-auto d-block" src="/image/error_500.jpg"  alt="error 500"></a>
 </div>
+
+<center><span th:text="${message}" /></center>
+
 </body>
 </html>

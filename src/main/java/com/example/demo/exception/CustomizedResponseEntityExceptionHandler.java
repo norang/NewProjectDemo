@@ -23,10 +23,16 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	
 	
 	@ExceptionHandler(NumberFormatException.class)
-	  public final ModelAndView handleNumberFormatException(Model model, Exception ex, WebRequest request) {
+	public final ModelAndView handleNumberFormatException(Model model, Exception ex, WebRequest request) {
+		model.addAttribute("message", ex.getClass());
+		return new ModelAndView("/error/error-500");
+	}
+	
+	@ExceptionHandler(Exception.class)
+	  public final ModelAndView handleAllException(Model model, Exception ex, WebRequest request) {
 			model.addAttribute("message", ex.getClass());
 		    return new ModelAndView("/error/error-500");
-  }
+	}
   
   
 //  @ExceptionHandler(AccessDeniedException.class)

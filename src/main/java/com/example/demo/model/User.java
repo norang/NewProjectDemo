@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import java.beans.Transient;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.*;

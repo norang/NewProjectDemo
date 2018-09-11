@@ -62,7 +62,6 @@
         <dependency>
 			 <groupId>mysql</groupId>
 			 <artifactId>mysql-connector-java</artifactId>
-			 <version>5.1.27</version>
 		 </dependency>
 		
 		<!-- optional, it brings userful tags to display spring security stuff -->

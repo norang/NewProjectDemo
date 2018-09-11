@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="BIG5">
+<title>Error 500 Title</title>
+
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"
+              href="../../css/bootstrap.min.css" />
+<link rel="stylesheet" th:href="@{/css/main.css}"
+              href="../../css/main.css" />
+ 
+
+</head>
+<body>
+<div class="container">
+	<a th:href="@{/}"><img class="mx-auto d-block" src="/image/uh_oh.jpg"  alt="error 500"></a>
+</div>
+
+<center><span th:text="${message}" /></center>
+
+</body>
+</html>

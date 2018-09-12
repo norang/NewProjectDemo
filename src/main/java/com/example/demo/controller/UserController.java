@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.demo.model.User;
-import com.example.demo.service.EmailService;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.SecurityService;
 import com.example.demo.service.UserService;
@@ -29,9 +28,6 @@ public class UserController{
     
     @Autowired
     private UserValidator userValidator;
-    
-    @Autowired
-    private EmailService emailService;
     
     @Autowired
     MessageSource messageSource;
@@ -84,10 +80,7 @@ public class UserController{
     @RequestMapping(value = {"/", "/welcome**"}, method = RequestMethod.GET)
     public String welcome(Model model) {
     	model.addAttribute("userList", userService.findAll());
-    	
-    	emailService.sendSimpleMessage();
-    	
-    	
+
     	
         return "welcome";
     }

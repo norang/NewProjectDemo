@@ -1,13 +1,16 @@
 package com.example.demo.repository;
 
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.model.Role;
+import com.example.demo.model.File;
 
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long>{
-	Role findByName(String name);
+public interface FileRepository extends JpaRepository<File, Long>{
+	
+	Optional<File> findById(Long id);
 }

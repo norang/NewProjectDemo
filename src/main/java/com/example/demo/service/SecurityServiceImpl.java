@@ -18,7 +18,7 @@ public class SecurityServiceImpl implements SecurityService{
     @Autowired
     private UserDetailsService userDetailsService;
 
-    private Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public String findLoggedInUsername() {

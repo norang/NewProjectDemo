@@ -1,8 +1,5 @@
 package com.example.demo.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -11,9 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractController;
-
 import com.example.demo.model.User;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.SecurityService;
@@ -21,7 +15,7 @@ import com.example.demo.service.UserService;
 import com.example.demo.validator.UserValidator;
 
 @Controller
-public class UserController extends AbstractController{
+public class UserController{
     @Autowired
     private UserService userService;
     
@@ -37,17 +31,6 @@ public class UserController extends AbstractController{
     @Autowired
     MessageSource messageSource;
 
-    
-    
-    
-    @Override
-	protected ModelAndView handleRequestInternal(HttpServletRequest request,
-		HttpServletResponse response) throws Exception {
-
-		ModelAndView model = new ModelAndView("Welcome");
-		return model;
-	}
-    
     
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {

@@ -14,6 +14,7 @@ import javax.persistence.Table;
 public class Role {
     private Long id;
     private String name;
+    private String type;
     private Set<User> users;
 
     @Id
@@ -42,4 +43,14 @@ public class Role {
     public void setUsers(Set<User> users) {
         this.users = users;
     }
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+    
+    
 }

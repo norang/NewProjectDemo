@@ -36,6 +36,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 	@ExceptionHandler(Exception.class)
 	  public final ModelAndView handleAllException(Model model, Exception ex, WebRequest request) {
 			model.addAttribute("message", ex.getClass());
+			ex.printStackTrace();
 		    return new ModelAndView("/error/error-500");
 	}
   

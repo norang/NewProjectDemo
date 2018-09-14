@@ -3,6 +3,7 @@ package com.example.demo.model;
 
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,6 +23,9 @@ public class User {
     private String title;
     private String passwordConfirm;
     private Set<Role> roles;
+    private int failedLoginAttempt;
+    private char isLock;
+    private String lockedIp;
     
 
     @Id
@@ -76,6 +80,33 @@ public class User {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+    @Column(nullable = false, columnDefinition = "TINYINT(3)unsigned default 0")
+	public int getFailedLoginAttempt() {
+		return failedLoginAttempt;
+	}
+
+	public void setFailedLoginAttempt(int failedLoginAttempt) {
+		this.failedLoginAttempt = failedLoginAttempt;
+	}
+	
+	@Column(nullable = false, columnDefinition = "CHAR(1) default 'N'")
+	public char getIsLock() {
+		return isLock;
+	}
+
+	public void setIsLock(char isLock) {
+		this.isLock = isLock;
+	}
+
+	@Column(name="lockedIP", columnDefinition = "varchar(50)")
+	public String getLockedIp() {
+		return lockedIp;
+	}
+
+	public void setLockedIp(String lockedIp) {
+		this.lockedIp = lockedIp;
 	}
 
 

@@ -4,8 +4,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -15,7 +13,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 
 @Configuration
-public class AppConfiguration implements WebMvcConfigurer{
+public class AppMvcConfiguration implements WebMvcConfigurer{
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -49,7 +47,6 @@ public class AppConfiguration implements WebMvcConfigurer{
         messageSource.setCacheSeconds(0);
         return messageSource;
     }
-    
     
 
     

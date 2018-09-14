@@ -13,4 +13,7 @@ public interface UserService {
     
     List<User> findAll();
     
+    void addFailedLoginAttempt(String username);
+
+	void resetFailedLoginAttempt(String username);
 }

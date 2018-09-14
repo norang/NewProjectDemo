@@ -12,7 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.example.demo.security.EventSendingAuthenticationFailureHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -22,6 +25,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
+    
+    @Autowired 
+    AuthenticationFailureHandler eventAuthenticationFailureHandler; 
     
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -37,6 +43,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
                 .formLogin()
                     .loginPage("/login")
+                    .defaultSuccessUrl("/", true)
+                    .failureUrl("/login?error")
+                    .failureHandler(eventAuthenticationFailureHandler)
                     .permitAll()
                     .and()
                 .logout()
@@ -49,10 +58,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                
     }
     
+    @Bean 
+    AuthenticationFailureHandler eventAuthenticationFailureHandler() { 
+        return new EventSendingAuthenticationFailureHandler(); 
+    } 
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+        auth
+        	.userDetailsService(userDetailsService)
+        	.passwordEncoder(bCryptPasswordEncoder());
     }
     
     //new version spring boot issue - to inject authenticationManager 

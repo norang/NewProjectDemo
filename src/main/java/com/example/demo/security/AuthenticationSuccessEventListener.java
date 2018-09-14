@@ -7,6 +7,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.service.LoginAttemptService;
+import com.example.demo.service.UserService;
 
 @Component
 public class AuthenticationSuccessEventListener
@@ -14,11 +15,15 @@ public class AuthenticationSuccessEventListener
 
 	@Autowired
     private LoginAttemptService loginAttemptService;
+	
+	@Autowired
+	private UserService userService;
  
-    public void onApplicationEvent(InteractiveAuthenticationSuccessEvent e) {
+    public void onApplicationEvent(InteractiveAuthenticationSuccessEvent event) {
         WebAuthenticationDetails auth = (WebAuthenticationDetails) 
-          e.getAuthentication().getDetails();
+          event.getAuthentication().getDetails();
          
         loginAttemptService.loginSucceeded(auth.getRemoteAddress());
+        userService.resetFailedLoginAttempt(event.getAuthentication().getName());
     }
 }

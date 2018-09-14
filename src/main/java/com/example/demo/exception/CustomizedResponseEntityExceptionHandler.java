@@ -39,6 +39,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 			ex.printStackTrace();
 		    return new ModelAndView("/error/error-500");
 	}
+
   
   
 //  @ExceptionHandler(AccessDeniedException.class)

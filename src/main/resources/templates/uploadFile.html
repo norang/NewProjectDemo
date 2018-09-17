@@ -6,56 +6,61 @@
 <head>
 
 <title>Upload Title</title>
-<div th:replace="fragments/header :: header-css"/>
+<head th:include="fragments/header :: header-css"/>
 
 </head>
 <body>
-<div th:replace="fragments/header :: header"/>
+<div th:include="fragments/header :: header"></div>
 
 <div class="container">
 
-<div>
 
 	<div th:if="${error}">
-        <div class="alert alert-danger" th:text="${error}" />
+        <div class="alert alert-danger" th:text="${error}"></div>
     </div>
     
 	<div th:if="${message}">
-        <div class="alert alert-info" th:text="${message}" />
+        <div class="alert alert-info" th:text="${message}"></div>
     </div>
-	<form method="POST" enctype="multipart/form-data" th:action="@{/uploadFile}">
+    
+	<form method="POST" enctype="multipart/form-data" th:action="@{/uploadFile}" class="form-submit">
 		<table>
-			<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-			<tr><td></td><td><input type="submit" value="Upload" accept="image/*"/></td></tr>
+			<tr>
+				<td>File to upload:</td>
+				<td><input type="file" name="file" /></td>
+			</tr>
+			<tr>
+				<td><input type="submit" class="btn btn-info" value="Upload" accept="image/*"/></td>
+			</tr>
 		</table>
 	</form>
 	<div>
 		<ul>
 			<li th:each="file : ${files}">
-				<a th:href="${file}" th:text="${file}" />
+				<a th:href="${file}" th:text="${file}"></a>
 			</li>
 		</ul>
 	</div>
-</div>
 
 
-<div th:if="${not #lists.isEmpty(fileList)}">
-		    <h2>File List</h2>
-		    <table class="table table-striped">
-		        <tr>
-		            <th>Filename</th>
-		            <th>File Type</th>
-		            <th>Link</th>
-		        </tr>
-		        <tr th:each="file : ${fileList}">
-		            <td th:text="${file.name}"></td>
-		            <td th:text="${file.filetype}"></td>
-		            <td><a th:href="@{/uploadFile/{id}(id=${file.id})}" th:target="_blank">View</a></td>
-		        </tr>
-		        
-		    </table>
-		</div> 
-	
+
+	<div th:if="${not #lists.isEmpty(fileList)}">
+		<h2>File List</h2>
+		<table class="table table-striped">
+		    <tr>
+		        <th>Filename</th>
+		        <th>File Type</th>
+		        <th>Link</th>
+		    </tr>
+		    <tr th:each="file : ${fileList}">
+		        <td th:text="${file.name}"></td>
+		        <td th:text="${file.filetype}"></td>
+		        <td><a th:href="@{/uploadFile/{id}(id=${file.id})}" th:target="_blank">View</a></td>
+		    </tr>
+		    
+		</table>
+	</div> 
+		
 		
 
 
@@ -63,6 +68,6 @@
 </div>
 
 
-<div th:replace="fragments/footer :: footer"/>
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

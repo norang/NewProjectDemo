@@ -4,25 +4,21 @@
 <head>
 </head>
 <body>
-<div th:fragment="footer">
-<footer class="footer">
-    <div>
-
-        <!-- this is footer -->
-        <p class="muted credit"><center>&copy; 2018 nora.com
-            <span sec:authorize="isAuthenticated()">
-                | Logged user: <span sec:authentication="name"></span> |
-                Roles: <span sec:authentication="principal.authorities"></span> |
-                <a th:href="@{/logout}">Sign Out</a>
-            </span>
-            </center></p>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js" th:href="@{/js/bootstrap.js}"></script>
-        
-
-       
-    </div>
- </footer>
-</div>
+	<div th:fragment="footer">
+		<footer class="footer">
+		    <div>
+		        <!-- this is footer -->
+		        <p class="form-center">&copy; 2018 nora.com
+		            <span sec:authorize="isAuthenticated()">
+		                | Logged user: <span sec:authentication="name"></span> 
+		                | Roles: <span sec:authentication="principal.authorities"></span> 
+		                | <a th:href="@{/logout}">Sign Out</a>
+		            </span>
+	            </p>
+				<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		        <script type="text/javascript" src="js/bootstrap.min.js" th:href="@{/js/bootstrap.js}"></script>
+		    </div>
+		</footer>
+	</div>
 </body>
 </html>

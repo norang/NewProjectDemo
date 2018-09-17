@@ -21,16 +21,18 @@
 	        <tr>
 	            <th>Username</th>
 	            <th>Password</th>
+	            <th>IsLock</th>
 	            <th>Role</th>
 	        </tr>
 	        <tr th:each="user : ${userList}">
 	            <td th:text="${user.username}"></td>
 	            <td th:text="${user.password}"></td>
-	             <td>
-		             <div th:each="role : ${user.roles}">
-		             	<p th:text="${role.name}"></p>
-		             </div>
-	             </td> 
+	            <td th:text="${user.isLock}"></td>
+	            <td>
+		            <div th:each="role : ${user.roles}">
+		            	<p th:text="${role.name}"></p>
+		            </div>
+	            </td> 
 	        </tr>
 	        
 	    </table>

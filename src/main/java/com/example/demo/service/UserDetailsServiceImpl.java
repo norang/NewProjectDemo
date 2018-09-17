@@ -16,7 +16,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.exception.AccountLockException;
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
@@ -45,21 +44,20 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         }
     	
     	Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-    	User user;
-    	try {
-	        user = userRepository.findByUsername(username);
-	        
-	        if (user.getIsLock() == CommonUtil.TRUE || user.getIsLock() == ' ') {
-	        	throw new RuntimeException(CommonUtil.ACCOUNT_STATUS_BLOCKED_ACCOUNT + CommonUtil.DELIMITER + username);
-	        }
-	        
-	        for (Role role : user.getRoles()){
-	            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-	        }
-    	}catch(Exception e) {
-
-    		throw new UsernameNotFoundException("Invalid user " + username);
+    	User user = userRepository.findByUsername(username);
+    	
+    	if (user == null) {
+    		throw new UsernameNotFoundException("Invalid User");
     	}
+
+        if (user.getIsLock() == CommonUtil.TRUE || user.getIsLock() == ' ') {
+        	throw new RuntimeException(CommonUtil.ACCOUNT_STATUS_BLOCKED_ACCOUNT + CommonUtil.DELIMITER + username);
+        }
+        
+        for (Role role : user.getRoles()){
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+
     	return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), grantedAuthorities);
     }
     

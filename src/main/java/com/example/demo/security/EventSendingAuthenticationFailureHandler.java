@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ public class EventSendingAuthenticationFailureHandler extends SimpleUrlAuthentic
 	
 	protected ApplicationEventPublisher eventPublisher;
 	
-	private final Logger logger = LoggerFactory.getLogger(getClass()); 
+	private final Logger logger = LoggerFactory.getLogger(this.getClass()); 
 
     public void setApplicationEventPublisher(ApplicationEventPublisher eventPublisher) {
         this.eventPublisher = eventPublisher;
@@ -39,6 +40,10 @@ public class EventSendingAuthenticationFailureHandler extends SimpleUrlAuthentic
 
         if (CommonUtil.ACCOUNT_STATUS_BLOCKED_IP.equalsIgnoreCase(message[0]) || 
         		CommonUtil.ACCOUNT_STATUS_BLOCKED_ACCOUNT.equalsIgnoreCase(message[0])) {
+        	logger.info(exception.getMessage());
+        }
+        
+        if (exception instanceof UsernameNotFoundException) {
         	logger.info(exception.getMessage());
         }
         

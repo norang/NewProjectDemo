@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class NewProjectDemoApplication {
 	
 	
-	public static String accountBlocked = "blocked";
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(NewProjectDemoApplication.class, args);

@@ -48,6 +48,8 @@ public class FileController{
         	fileService.save(fileInput);
         	model.addAttribute("message", "Image uploaded successfully.");
     	}
+    	
+    	model.addAttribute("fileList", fileService.findAll());
 
         return "uploadFile";
     }

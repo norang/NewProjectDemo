@@ -14,19 +14,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.example.demo.validator.ValidPassword;
 
 @Entity
 @Table(name = "user")
 public class User {
     private Long id;
     private String username;
-    
-    @ValidPassword
     private String password;
     private String title;
-    
-    
     private String passwordConfirm;
     private Set<Role> roles;
     private int failedLoginAttempt;

@@ -1,14 +1,17 @@
 package com.example.demo.security;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.sql.Timestamp;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.model.User;
+import com.example.demo.model.UserAccessLog;
 import com.example.demo.service.LoginAttemptService;
+import com.example.demo.service.UserAccessLogService;
 import com.example.demo.service.UserService; 
 
 @Component 
@@ -21,8 +24,9 @@ public class AuthenticationFailureListener
 	@Autowired
 	private UserService userService;
 	
-
-    private final Logger logger = LoggerFactory.getLogger(getClass()); 
+	@Autowired
+	private UserAccessLogService userAccessLogService;
+	
 
     @Override 
     public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent event) {
@@ -31,7 +35,13 @@ public class AuthenticationFailureListener
     	loginAttemptService.loginFailed(auth.getRemoteAddress());
     	userService.addFailedLoginAttempt(event.getAuthentication().getName());
     	
-//    	logger.info("{}", event);
+    	User user = userService.findByUsername(event.getAuthentication().getName());
+    	
+    	if (user != null)
+    		userAccessLogService.save(new UserAccessLog(user, new Timestamp(event.getTimestamp()), auth.getRemoteAddress()));
+    	
+    	
+
     } 
     
    

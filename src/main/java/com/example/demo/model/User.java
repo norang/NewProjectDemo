@@ -3,6 +3,7 @@ package com.example.demo.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -18,12 +20,13 @@ import javax.persistence.Transient;
 @Entity
 @Table(name = "user")
 public class User {
-    private Long id;
+    private Long userId;
     private String username;
     private String password;
     private String title;
     private String passwordConfirm;
     private Set<Role> roles;
+    private Set<UserAccessLog> userAccessLogs;
     private int failedLoginAttempt;
     private char isLock;
     private String lockedIp;
@@ -32,11 +35,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long getId() {
-        return id;
+        return userId;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.userId = id;
     }
 
     public String getUsername() {
@@ -64,7 +67,7 @@ public class User {
         this.passwordConfirm = passwordConfirm;
     }
 
-    @ManyToMany
+    @ManyToMany(cascade=CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     public Set<Role> getRoles() {
         return roles;
@@ -108,6 +111,15 @@ public class User {
 
 	public void setLockedIp(String lockedIp) {
 		this.lockedIp = lockedIp;
+	}
+	
+	@OneToMany(mappedBy = "user")
+	public Set<UserAccessLog> getUserAccessLogs() {
+		return userAccessLogs;
+	}
+
+	public void setUserAccessLogs(Set<UserAccessLog> userAccessLogs) {
+		this.userAccessLogs = userAccessLogs;
 	}
 
 

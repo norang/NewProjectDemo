@@ -41,6 +41,33 @@
 
 </div>
 <!-- /container -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/pwstrength.js" th:href="@{/js/pwstrength.js}"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    options = {
+        common: {minChar:8},
+        ui: {
+            showVerdictsInsideProgressBar:true,
+            showErrors:true,
+            errorMessages:{
+                wordLength: '[[#{error.wordLength}]]',
+                wordNotEmail: '[[#{error.wordNotEmail}]]',
+                wordSequences: '[[#{error.wordSequences}]]',
+                wordLowercase: '[[#{error.wordLowercase}]]',
+                wordUppercase: '[[#{error.wordUppercase}]]',
+                wordOneNumber: '[[#{error.wordOneNumber}]]',
+                wordOneSpecialChar: '[[#{error.wordOneSpecialChar}]]'
+            }
+        }
+    };
+    $('#password').pwstrength(options);
+});
+
+
+
+
+</script>
 
 </body>
 </html>

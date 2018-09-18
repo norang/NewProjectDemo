@@ -1,6 +1,8 @@
 package com.example.demo.validator;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -9,11 +11,14 @@ import org.springframework.validation.Validator;
 
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
+import com.example.demo.util.CommonUtil;
 
 @Component
 public class UserValidator implements Validator {
     @Autowired
     private UserService userService;
+    
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -32,14 +37,36 @@ public class UserValidator implements Validator {
             errors.rejectValue("username", "Duplicate.userForm.username");
         }
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
-        if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
-            errors.rejectValue("password", "Size.userForm.password");
-        }
+        isPasswordValid(user, errors);
 
         if (!user.getPasswordConfirm().equals(user.getPassword())) {
             errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");
         }
 
+    }
+    
+    public void isPasswordValid(User user, Errors errors) {
+    	String password = user.getPassword();
+    	
+    	ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
+    	
+    	if (user.getPassword().equalsIgnoreCase(user.getUsername())) {
+            errors.rejectValue("password", "Username.userForm.password");
+        }
+    	
+    	if (password.length() < 8 || password.length() > 32)
+    		errors.rejectValue("password", "Size.userForm.password");
+    	
+    	if (password.equals(password.toLowerCase()))
+    		errors.rejectValue("password", "LowerCase.userForm.password");
+    	
+    	if (password.equals(password.toUpperCase()))
+    		errors.rejectValue("password", "UpperCase.userForm.password");
+    	
+    	if (password.matches("[A-Za-z0-9 ]*"))
+    		errors.rejectValue("password", "Symbol.userForm.password");
+    		
+    	if (!CommonUtil.stringContainsNumber(password))
+    		errors.rejectValue("password", "Number.userForm.password");
     }
 }

@@ -14,9 +14,10 @@
 <body>
 <div class="container">
 	<a th:href="@{/}"><img class="mx-auto d-block" src="/image/error_500.jpg"  alt="error 500"></a>
+	<p th:text="${message}" class = "form-center"></p>
 </div>
 
-<span th:text="${message}" class = "form-center"></span>
+
 
 </body>
 </html>

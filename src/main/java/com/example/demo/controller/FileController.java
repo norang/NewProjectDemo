@@ -1,12 +1,16 @@
 package com.example.demo.controller;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,11 +28,17 @@ public class FileController{
 	private FileService fileService;
     
 	
+	@PreAuthorize("hasRole('ROLE_CON')")
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.GET)
-    public String registration(Model model) {
+    public String uploadFile(Model model, String updateSuccess, String uploadSuccess) {
 		
-		model.addAttribute("fileList", fileService.findAll());
 
+		if (updateSuccess != null)
+			model.addAttribute("message", "Image updated successfully.");
+		else if (uploadSuccess != null)
+			model.addAttribute("message", "Image uploaded successfully.");
+		
+		model.addAttribute("uploadForm", new File());
         return "uploadFile";
     }
 	
@@ -46,15 +56,19 @@ public class FileController{
     	}else {
     		File fileInput = new File(file.getOriginalFilename(), fileType[1], file.getBytes());
         	fileService.save(fileInput);
-        	model.addAttribute("message", "Image uploaded successfully.");
     	}
     	
-    	model.addAttribute("fileList", fileService.findAll());
-
-        return "uploadFile";
+        return "redirect:/uploadFile?uploadSuccess";
     }
     
-    @RequestMapping(value="/uploadFile/{id}")
+    @RequestMapping(value = "/uploadFile/edit", method = RequestMethod.POST)
+    public String edit(@ModelAttribute("fileForm") File fileForm, Model model) throws IOException {
+    	fileService.save(fileForm);
+        return "redirect:/uploadFile?updateSuccess";
+    }
+    
+    
+    @RequestMapping(value="/uploadFile/view/{id}")
     @ResponseBody
     public ResponseEntity<byte[]> view(@PathVariable("id") String id){
     	
@@ -66,6 +80,26 @@ public class FileController{
                 .body(image);
     }
     
+    @RequestMapping(value="/uploadFile/viewDetail/{id}")
+    @ResponseBody
+	public File  view(@PathVariable("id") String id, Model model){
+	  	
+    	Optional<File> file = fileService.findById(id);
+        
+        return file.get();
+	}
+    
+    @RequestMapping(value="/uploadFile/delete/{id}")
+    public String delete(@PathVariable("id") String id, Model model){
+    	model.addAttribute("message", "Image deleted successfully.");
+    	fileService.delete(Long.parseLong(id));
+    	return "redirect:/uploadFile";
+    }
     
     
+    @ModelAttribute("fileList")
+    public List<File> getFileList() {
+        return fileService.findAll();
+    }
+
 }

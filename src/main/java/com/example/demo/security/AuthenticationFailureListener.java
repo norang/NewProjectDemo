@@ -12,7 +12,8 @@ import com.example.demo.model.User;
 import com.example.demo.model.UserAccessLog;
 import com.example.demo.service.LoginAttemptService;
 import com.example.demo.service.UserAccessLogService;
-import com.example.demo.service.UserService; 
+import com.example.demo.service.UserService;
+import com.example.demo.util.CommonUtil; 
 
 @Component 
 public class AuthenticationFailureListener 
@@ -38,10 +39,7 @@ public class AuthenticationFailureListener
     	User user = userService.findByUsername(event.getAuthentication().getName());
     	
     	if (user != null)
-    		userAccessLogService.save(new UserAccessLog(user, new Timestamp(event.getTimestamp()), auth.getRemoteAddress()));
-    	
-    	
-
+    		userAccessLogService.save(new UserAccessLog(user, new Timestamp(event.getTimestamp()), auth.getRemoteAddress(), CommonUtil.FAIL));
     } 
     
    

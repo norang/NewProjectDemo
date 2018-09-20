@@ -11,6 +11,9 @@ public class CommonUtil {
 	public static char FALSE = 'N';
 	public static char TRUE  = 'Y';
 	
+	public static char SUCCESS = 'S';
+	public static char FAIL	   = 'F';
+	
 	public static int MAX_FAIL_ATTEMPT = 3;
 	
 	

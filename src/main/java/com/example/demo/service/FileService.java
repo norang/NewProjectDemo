@@ -19,6 +19,10 @@ public class FileService {
     	fileRepository.save(file);
     }
     
+    public void delete(long id) {
+    	fileRepository.deleteById(id);
+    }
+    
     public List<File> findAll() {
 		return fileRepository.findAll();
 	}

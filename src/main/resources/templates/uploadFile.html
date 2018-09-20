@@ -12,9 +12,12 @@
 <body>
 <div th:include="fragments/header :: header"></div>
 
+
+
 <div class="container">
-
-
+	<div class="form-submit">
+		<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#uploadFileModal"><span class="fas fa-plus"></span></button>
+	</div>
 	<div th:if="${error}">
         <div class="alert alert-danger" th:text="${error}"></div>
     </div>
@@ -22,52 +25,134 @@
 	<div th:if="${message}">
         <div class="alert alert-info" th:text="${message}"></div>
     </div>
-    
-	<form method="POST" enctype="multipart/form-data" th:action="@{/uploadFile}" class="form-submit">
-		<table>
-			<tr>
-				<td>File to upload:</td>
-				<td><input type="file" name="file" /></td>
-			</tr>
-			<tr>
-				<td><input type="submit" class="btn btn-info" value="Upload" accept="image/*"/></td>
-			</tr>
-		</table>
-	</form>
-	<div>
-		<ul>
-			<li th:each="file : ${files}">
-				<a th:href="${file}" th:text="${file}"></a>
-			</li>
-		</ul>
+	
+	<!-- Add Modal -->
+	<div class="modal fade" id="uploadFileModal" tabindex="-1" role="dialog" aria-labelledby="uploadFileModal" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Upload Files</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+				</div>
+				
+				<div class="modal-body">
+				
+					<form method="POST" enctype="multipart/form-data" th:action="@{/uploadFile}" class="form-submit">
+
+						<table class="table-modal">
+							<tr>
+								<td>File to upload:</td>
+								<td><input type="file" name="file" /></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td>
+									<input type="submit" class="btn btn-info" value="Upload" accept="image/*"/>
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+								</td>
+
+							</tr>
+						</table>
+					</form>
+					
+					<div>
+						<ul>
+							<li th:each="file : ${files}">
+								<a th:href="${file}" th:text="${file}"></a>
+							</li>
+						</ul>
+					</div>
+				
+				</div>
+
+				<div class="modal-footer"> </div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Update Modal -->
+	<div class="modal fade" id="uModal" tabindex="-1" role="dialog" >
+		<div class="modal-dialog" role="document">
+			
+			
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Edit Files</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+					</div>
+		
+					<div class="modal-body">
+						<div id="modalContents">
+						<form method="POST" th:action="@{/uploadFile/edit}" th:object="${uploadForm}" th:class="form-submit">
+							
+							<input id="file-id" type="hidden" class="form-control input-lg" th:field="*{id}" />
+							<input id="file-pic" type="hidden" class="form-control input-lg" th:field="*{pic}" />
+							<label >file type</label>
+							<input id="file-type" type="text" class="form-control input-lg" th:field="*{filetype}" />
+							<label>file Name</label>
+							<input id="file-name" type="text" class="form-control input-lg" th:field="*{name}"/>
+							
+							<input type="submit" class="btn btn-info" value="Save"/>
+							</form>
+						</div>
+					</div>
+					
+					<div class="modal-footer">
+						
+						
+					</div>
+				</div>
+		
+			
+		</div>
 	</div>
 
+	<th:block th:if="${#lists.isEmpty(fileList)}">
+		<h3>No File Uploaded</h3>
+    </th:block>
 
-
-	<div th:if="${not #lists.isEmpty(fileList)}">
+	<th:block th:unless="${#lists.isEmpty(fileList)}">
 		<h2>File List</h2>
-		<table class="table table-striped">
+		<table class="table">
+			<thead>
 		    <tr>
 		        <th>Filename</th>
 		        <th>File Type</th>
-		        <th>Link</th>
+		        <th></th>
 		    </tr>
+		    <thead>
+		    <tbody>
 		    <tr th:each="file : ${fileList}">
 		        <td th:text="${file.name}"></td>
 		        <td th:text="${file.filetype}"></td>
-		        <td><a th:href="@{/uploadFile/{id}(id=${file.id})}" th:target="_blank">View</a></td>
+		        <td>
+					<a id="view-file" th:href="@{/uploadFile/view/{id}(id=${file.id})}" th:target="_blank" class="btn btn-success" role="button"><span class="fas fa-search"></span></a>
+					<a id="edit-file" href="" th:onclick="'javascript:openUModal(\''+${file.id}+'\');'" class="btn btn-primary" role="button" data-toggle="modal" data-target="#uModal"><span class="fas fa-edit"></span></a>
+					<a th:href="@{/uploadFile/delete/{id=${file.id}}}"  data-confirm="Are you sure you want to delete?" class="btn btn-danger confirm" role="button"><span class="fas fa-trash"></span></a>
+
+		        </td>
+		        
 		    </tr>
-		    
+		    </tbody>
 		</table>
-	</div> 
-		
-		
-
-
-
+	</th:block>
 </div>
 
 
+
+
 <div th:replace="fragments/footer :: footer"></div>
+<script>
+
+	
+	
+	
+
+</script>
+
 </body>
 </html>

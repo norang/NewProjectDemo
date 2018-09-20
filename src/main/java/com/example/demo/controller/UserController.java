@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.demo.model.Role;
 import com.example.demo.model.User;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.SecurityService;
@@ -36,8 +39,6 @@ public class UserController{
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
-        model.addAttribute("roleList", roleService.findAll());
-
         return "registration";
     }
 
@@ -46,7 +47,6 @@ public class UserController{
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
-        	model.addAttribute("roleList", roleService.findAll());
             return "registration";
         }
 
@@ -70,19 +70,20 @@ public class UserController{
     
 
 
-//    @RequestMapping(value = {"/", "/welcome**"}, method = RequestMethod.GET)
-//    public ModelAndView welcome(Model model) {
-//
-//        return new ModelAndView("welcome");
-//    }
     
- //   @PreAuthorize("hasRole('ROLE_CON')")
     @RequestMapping(value = {"/", "/welcome**"}, method = RequestMethod.GET)
     public String welcome(Model model) {
-    	model.addAttribute("userList", userService.findAll());
-
-    	
         return "welcome";
+    }
+    
+    @ModelAttribute("userList")
+    public List<User> getUserList() {
+        return userService.findAll();
+    }
+    
+    @ModelAttribute("roleList")
+    public List<Role> getRoleList() {
+        return roleService.findAll();
     }
     
 }

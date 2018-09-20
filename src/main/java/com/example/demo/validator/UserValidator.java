@@ -4,6 +4,7 @@ package com.example.demo.validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -17,6 +18,9 @@ import com.example.demo.util.CommonUtil;
 public class UserValidator implements Validator {
     @Autowired
     private UserService userService;
+    
+    @Value("${SystemParam.enablePasswordPolicy}")
+	private String isEnablePwPolicy;
     
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -37,7 +41,8 @@ public class UserValidator implements Validator {
             errors.rejectValue("username", "Duplicate.userForm.username");
         }
 
-        isPasswordValid(user, errors);
+        if(Boolean.parseBoolean(isEnablePwPolicy)) 
+        	isPasswordValid(user, errors);
 
         if (!user.getPasswordConfirm().equals(user.getPassword())) {
             errors.rejectValue("passwordConfirm", "Diff.userForm.passwordConfirm");

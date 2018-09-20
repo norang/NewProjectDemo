@@ -24,17 +24,22 @@ public class UserAccessLog {
 	@Size(max = 50)
     private String userIpAddress;
 	
+	@NotNull
+	@Column(columnDefinition = "CHAR(1) default 'N'")
+	private char status;
+	
 	@ManyToOne
 	@JoinColumn(name="id")
 	private User user = new User();
 
    
 	
-    public UserAccessLog(User user, Timestamp accessDatetime, String userIpAddress) {
+    public UserAccessLog(User user, Timestamp accessDatetime, String userIpAddress, char status) {
 		super();
 		this.user = user;
 		this.accessDatetime = accessDatetime;
 		this.userIpAddress = userIpAddress;
+		this.status = status;
 	}
 
 	public Long getUserAccessLogId() {
@@ -68,8 +73,14 @@ public class UserAccessLog {
 	public void setUser(User user) {
 		this.user = user;
 	}
-    
-    
-    
+
+	public char getStatus() {
+		return status;
+	}
+
+	public void setStatus(char status) {
+		this.status = status;
+	}
+
 
 }

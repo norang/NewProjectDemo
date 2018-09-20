@@ -13,6 +13,7 @@ import com.example.demo.model.UserAccessLog;
 import com.example.demo.service.LoginAttemptService;
 import com.example.demo.service.UserAccessLogService;
 import com.example.demo.service.UserService;
+import com.example.demo.util.CommonUtil;
 
 @Component
 public class AuthenticationSuccessEventListener
@@ -36,6 +37,6 @@ public class AuthenticationSuccessEventListener
         
         User user = userService.findByUsername(event.getAuthentication().getName());
     	if (user != null)
-    		userAccessLogService.save(new UserAccessLog(user, new Timestamp(event.getTimestamp()), auth.getRemoteAddress()));
+    		userAccessLogService.save(new UserAccessLog(user, new Timestamp(event.getTimestamp()), auth.getRemoteAddress(), CommonUtil.SUCCESS));
     }
 }

@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    .antMatchers("/registration", "/css/**", "/js/**", "/login**").permitAll()
+                    .antMatchers("/registration", "/css/**", "/js/**", "/login**", "/webfonts/**").permitAll()
                     .anyRequest().authenticated()
                     .and()
                 .formLogin()
@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
     
     @Bean 
-    AuthenticationFailureHandler eventAuthenticationFailureHandler() { 
+    public AuthenticationFailureHandler eventAuthenticationFailureHandler() { 
         return new EventSendingAuthenticationFailureHandler(); 
     } 
 

@@ -26,16 +26,16 @@
 	            
 	            <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	            <ul class="navbar-nav mr-auto" sec:authorize="isFullyAuthenticated()">
-	            	<li class="nav-item"><a class="nav-link"  th:href="@{/}">Home</a></li>
-	            	<li class="nav-item" ><a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/registration}">Registration</a></li>
-	            	<li class="nav-item" ><a class="nav-link" sec:authorize="hasRole('ROLE_CON')" th:href="@{/uploadFile}">Upload Documents</a></li>
+	            	<li class="nav-item active"><a class="nav-link"  th:href="@{/}"><i class="fas fa-home"></i>Home</a></li>
+	            	<li class="nav-item" ><a class="nav-link" sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/registration}"><i class="fas fa-user-plus"></i>Registration</a></li>
+	            	<li class="nav-item" ><a class="nav-link" sec:authorize="hasRole('ROLE_CON')" th:href="@{/uploadFile}"><i class="fas fa-upload"></i>Upload Documents</a></li>
 	            </ul>
 	            <ul class="navbar-nav mr-auto">
 	            </ul>
 	            <ul class="nav navbar-nav navbar-right">	
 	            	<li class="nav-item dropdown ">
 	            		<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
-	            		data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Language</a>
+	            		data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-globe-asia"></i>Language</a>
 	            		<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 	            			<a class="dropdown-item" href="?lang=en_US" th:text="#{english}"></a>
 	            			<a class="dropdown-item" href="?lang=zh_CN" th:text="#{simplifiedChinese}"></a>
@@ -43,7 +43,7 @@
 	            		</div>
 	            	</li>
 	            	
-	            	<li class="nav-item" ><a class="nav-link"  th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i></a></li>
+	            	<li class="nav-item" ><a class="nav-link"  th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
 	            </ul>
 
 	        </div> 

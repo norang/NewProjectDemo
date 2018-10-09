@@ -4,13 +4,13 @@
 
 <head>
 	<title>Welcome Title</title>
-	<head th:include="fragments/header :: header-css"/>
+	<head th:replace="fragments/header :: header-css"/>
 </head>
 
 
 
 <body>
-<div th:include="fragments/header :: header"></div>
+<div th:replace="fragments/header :: header"></div>
 <div class="container">
 
 	<h1 class="form-heading">Project Demo</h1>

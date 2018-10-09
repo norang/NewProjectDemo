@@ -4,7 +4,17 @@ package com.example.demo.model;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -30,13 +40,13 @@ public class UserAccessLog {
 	
 	@ManyToOne
 	@JoinColumn(name="id")
-	private User user = new User();
+	private User accessUser;
 
    
 	
     public UserAccessLog(User user, Timestamp accessDatetime, String userIpAddress, char status) {
 		super();
-		this.user = user;
+		this.accessUser = user;
 		this.accessDatetime = accessDatetime;
 		this.userIpAddress = userIpAddress;
 		this.status = status;
@@ -67,11 +77,11 @@ public class UserAccessLog {
 	}
 
 	public User getUser() {
-		return user;
+		return accessUser;
 	}
 
 	public void setUser(User user) {
-		this.user = user;
+		this.accessUser = user;
 	}
 
 	public char getStatus() {

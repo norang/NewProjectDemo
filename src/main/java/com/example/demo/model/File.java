@@ -11,9 +11,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "files")
 public class File {
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String filetype;
+    
+    @Lob
     private byte[] pic;
    
     public File() {}
@@ -25,8 +29,7 @@ public class File {
 		this.pic = pic;
 	}
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	
     public Long getId() {
         return id;
     }
@@ -51,7 +54,6 @@ public class File {
 		this.name = name;
 	}
 
-	@Lob
 	public byte[] getPic() {
 		return pic;
 	}

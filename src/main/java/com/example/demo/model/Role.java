@@ -12,14 +12,24 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "role")
 public class Role {
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String type;
+    
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long getId() {
+    public Role() {}
+    
+    public Role(String name, String type) {
+		super();
+		this.name = name;
+		this.type = type;
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -35,7 +45,7 @@ public class Role {
         this.name = name;
     }
 
-    @ManyToMany(mappedBy = "roles")
+    
     public Set<User> getUsers() {
         return users;
     }
@@ -52,5 +62,9 @@ public class Role {
 		this.type = type;
 	}
     
+	public String toString() {
+		return "id = " + id + ", name = "+name;
+		
+	}
     
 }

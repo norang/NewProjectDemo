@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,25 +16,45 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 
 @Entity
 @Table(name = "user")
 public class User {
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
     private String username;
     private String password;
+    
+    @Transient
     private String title;
+    
+    @Transient
     private String passwordConfirm;
+    
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+    
+    @OneToMany(mappedBy = "accessUser")
     private Set<UserAccessLog> userAccessLogs;
+    
+    @NotNull
+    @Column(columnDefinition = "TINYINT(3)unsigned default 0")
     private int failedLoginAttempt;
+    
+    @NotNull
+    @Column(columnDefinition = "CHAR(1) default 'N'")
     private char isLock;
+    
+    @Column(name="lockedIP", columnDefinition = "varchar(50)")
     private String lockedIp;
     
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    
     public Long getId() {
         return userId;
     }
@@ -58,7 +79,7 @@ public class User {
         this.password = password;
     }
 
-    @Transient
+    
     public String getPasswordConfirm() {
         return passwordConfirm;
     }
@@ -67,8 +88,6 @@ public class User {
         this.passwordConfirm = passwordConfirm;
     }
 
-    @ManyToMany(cascade=CascadeType.ALL)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     public Set<Role> getRoles() {
         return roles;
     }
@@ -77,7 +96,7 @@ public class User {
         this.roles = roles;
     }
 
-    @Transient
+    
 	public String getTitle() {
 		return title;
 	}
@@ -86,7 +105,6 @@ public class User {
 		this.title = title;
 	}
 	
-    @Column(nullable = false, columnDefinition = "TINYINT(3)unsigned default 0")
 	public int getFailedLoginAttempt() {
 		return failedLoginAttempt;
 	}
@@ -95,7 +113,7 @@ public class User {
 		this.failedLoginAttempt = failedLoginAttempt;
 	}
 	
-	@Column(nullable = false, columnDefinition = "CHAR(1) default 'N'")
+	
 	public char getIsLock() {
 		return isLock;
 	}
@@ -104,7 +122,7 @@ public class User {
 		this.isLock = isLock;
 	}
 
-	@Column(name="lockedIP", columnDefinition = "varchar(50)")
+	
 	public String getLockedIp() {
 		return lockedIp;
 	}
@@ -113,7 +131,7 @@ public class User {
 		this.lockedIp = lockedIp;
 	}
 	
-	@OneToMany(mappedBy = "user")
+	
 	public Set<UserAccessLog> getUserAccessLogs() {
 		return userAccessLogs;
 	}

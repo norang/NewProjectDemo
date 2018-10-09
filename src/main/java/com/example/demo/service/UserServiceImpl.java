@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
@@ -51,38 +52,44 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional
 	public void addFailedLoginAttempt(String username) {
 		User user = findByUsername(username);
 		
 		if (user!=null) {
 			
-			if (user.getFailedLoginAttempt() <3 ) {
-				
-				if (user.getIsLock() == CommonUtil.FALSE) {
-					logger.info("addFailedLoginAttempt: OldFailedLoginAttempt = {}, NewFailedLoginAttempt = {}", user.getFailedLoginAttempt(), user.getFailedLoginAttempt()+1);
-					user.setFailedLoginAttempt(user.getFailedLoginAttempt()+1);
-					
-					if (user.getFailedLoginAttempt() >= CommonUtil.MAX_FAIL_ATTEMPT)
-						user.setIsLock(CommonUtil.TRUE);
-					
-					userRepository.save(user);
-				}
-			}else if (user.getIsLock() == CommonUtil.FALSE) {
-				user.setIsLock(CommonUtil.TRUE);
-				userRepository.save(user);
-			}
+			//new Fail Attempt 
+			int oldFailAttempt = user.getFailedLoginAttempt();
+			int newFailAttempt = oldFailAttempt <3 ? oldFailAttempt+1 : oldFailAttempt;
+
+			
+			//new status
+			char isLock = newFailAttempt < 3 ? CommonUtil.FALSE:CommonUtil.TRUE;
+			
+			//update attempt counter
+			int updateStatus = userRepository.updateUserSetFailedloginattemptAndIslockForUsername(newFailAttempt, isLock, username);
+	
+			
+			if (updateStatus == 1)
+				logger.info("addFailedLoginAttempt successed!");
+			else
+				logger.info("addFailedLoginAttempt failed!");
+
 		}
 	}
 	
 	@Override
+	@Transactional
 	public void resetFailedLoginAttempt(String username) {
 		User user = findByUsername(username);
 		
 		if (user!=null) {
-			logger.info("resetFailedLoginAttempt: OldFailedLoginAttempt = {}, NewFailedLoginAttempt = {}", user.getFailedLoginAttempt(), 0);
-			user.setFailedLoginAttempt(0);
-			user.setIsLock(CommonUtil.FALSE);
-			userRepository.save(user);
+			
+			int i = userRepository.updateUserSetFailedloginattemptAndIslockForUsername(0, CommonUtil.FALSE, username);
+			if (i == 0)
+				logger.info("resetFailedLoginAttempt successed!");
+			else
+				logger.info("resetFailedLoginAttempt failed!");
 		}
 	}
     

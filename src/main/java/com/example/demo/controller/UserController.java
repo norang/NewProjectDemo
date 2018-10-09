@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.demo.model.Role;
 import com.example.demo.model.User;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.RoleService;
 import com.example.demo.service.SecurityService;
 import com.example.demo.service.UserService;
@@ -34,6 +36,9 @@ public class UserController{
     
     @Autowired
     MessageSource messageSource;
+    
+    @Autowired
+    UserRepository userRepository;
 
     
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -65,6 +70,12 @@ public class UserController{
         if (logout != null)
             model.addAttribute("message", "You have been logged out successfully.");
 
+//        userRepository.findByUsernameLike("%aa");
+//        userRepository.findByUsernameIn("aaaaaaaa");
+        Random rand = new Random();
+        int a = rand.nextInt(50)+1;
+        userRepository.updateUserSetIdForUsername((long) a,"aaaaaaaa");
+        
         return "login";
     }
     
@@ -83,7 +94,15 @@ public class UserController{
     
     @ModelAttribute("roleList")
     public List<Role> getRoleList() {
-        return roleService.findAll();
+    	
+    	List<Role> result = roleService.findAll();
+    	if (result.isEmpty()) {
+        	Role r = new Role("ROLE_ADMIN", "1");
+        	roleService.save(r);
+        	System.out.println("Saved Role: " + r.toString());
+        	result.add(r);
+        }	
+        return  result;
     }
     
 }

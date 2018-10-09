@@ -9,5 +9,6 @@ import com.example.demo.model.Role;
 public interface RoleService {
 	Role findById(long id);
     List<Role> findAll();
+    void save(Role role);
     
 }
